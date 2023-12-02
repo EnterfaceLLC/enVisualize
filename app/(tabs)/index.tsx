@@ -1,31 +1,56 @@
-import { StyleSheet } from 'react-native';
+import React, { useRef } from "react";
+import {
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 
-import EditScreenInfo from '../../components/EditScreenInfo';
-import { Text, View } from '../../components/Themed';
+import { Text, View } from "../../components/Themed";
+import Lottie from "lottie-react-native";
 
 export default function TabOneScreen() {
+  const animationRef = useRef<Lottie>();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <SafeAreaView>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: 10,
+        }}
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            tintColor={"transparent"}
+            onRefresh={() => {animationRef.current?.play()}}
+          />
+        }
+      >
+        <Lottie
+          ref={animationRef}
+          source={require("../../assets/dots.json")}
+          autoPlay
+          loop={false}
+          style={{ width: 100, height: 100, alignSelf: "center" }}
+        />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
 });
