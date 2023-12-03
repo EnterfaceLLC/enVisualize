@@ -8,6 +8,7 @@ import {
 
 import { Text, View } from "../../components/Themed";
 import Lottie from "lottie-react-native";
+import { createRandomUser } from "../../utils/DummyData";
 
 export default function TabOneScreen() {
   const animationRef = useRef<Lottie>();
