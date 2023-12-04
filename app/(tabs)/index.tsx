@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import {
   RefreshControl,
   SafeAreaView,
@@ -9,9 +9,13 @@ import {
 import { Text, View } from "../../components/Themed";
 import Lottie from "lottie-react-native";
 import { createRandomUser } from "../../utils/DummyData";
+import { ThreadsContext } from "../../context/threads-context";
+import ThreadsItems from "../../components/Threads";
 
 export default function TabOneScreen() {
-  const animationRef = useRef<Lottie>();
+  const animationRef = useRef<Lottie>(null);
+
+  const threads = useContext(ThreadsContext);
 
   return (
     <SafeAreaView>
@@ -23,7 +27,9 @@ export default function TabOneScreen() {
           <RefreshControl
             refreshing={false}
             tintColor={"transparent"}
-            onRefresh={() => {animationRef.current?.play()}}
+            onRefresh={() => {
+              animationRef.current?.play();
+            }}
           />
         }
       >
@@ -34,6 +40,11 @@ export default function TabOneScreen() {
           loop={false}
           style={{ width: 100, height: 100, alignSelf: "center" }}
         />
+
+        {threads.map((thread) => (
+          <ThreadsItems key={thread.id} {...thread} />
+        ))}
+        
       </ScrollView>
     </SafeAreaView>
   );
